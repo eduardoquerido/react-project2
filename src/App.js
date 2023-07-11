@@ -18,12 +18,10 @@ function App() {
     const expectedReturn = +userInput["expected-return"] / 100;
     const duration = +userInput["duration"];
 
-    // The below code calculates yearly results (total savings, interest etc)
     for (let i = 0; i < duration; i++) {
       const yearlyInterest = currentSavings * expectedReturn;
       currentSavings += yearlyInterest + yearlyContribution;
       yearlyData.push({
-        // feel free to change the shape of the data pushed to the array!
         year: i + 1,
         yearlyInterest: yearlyInterest,
         savingsEndOfYear: currentSavings,
@@ -36,11 +34,15 @@ function App() {
     <div>
       <Header />
       <UserInput onCalculate={calculateHandler} />
-
       {/* Todo: Show below table conditionally (only once result data is available) */}
       {/* Show fallback text if no data is available */}
-
-      <ResultsTable />
+      {!userInput && <p>No investment calculated yet</p>}
+      {userInput && (
+        <ResultsTable
+          data={yearlyData}
+          initialInvestment={userInput["current-savings"]}
+        />
+      )}
     </div>
   );
 }
