@@ -12,7 +12,7 @@ function App() {
     if (storedUserLoggedInInformation === "LOGGED_IN") {
       setIsLoggedIn(true);
     }
-  }, []);
+  }, []); // here there's no dependecy because we want it to run just once and not every re-render
 
   const loginHandler = (email, password) => {
     // We should of course check email and password
