@@ -5,6 +5,9 @@ import classes from "./Login.module.css";
 import Button from "../UI/Button/Button";
 
 const Login = (props) => {
+  // if a state depends on another state then the
+  // better approch to it would be using useReducer instead of useState
+
   const [enteredEmail, setEnteredEmail] = useState("");
   const [emailIsValid, setEmailIsValid] = useState();
   const [enteredPassword, setEnteredPassword] = useState("");
