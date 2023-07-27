@@ -1,9 +1,16 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 
 const SimpleInput = (props) => {
   // const nameInputRef = useRef();
   const [enteredName, setEnteredName] = useState("");
-  const [enteredNameIsValid, setEnteredNameIsValid] = useState(true);
+  const [enteredNameIsValid, setEnteredNameIsValid] = useState(false);
+  const [enteredNameTouched, setEnteredNameTouched] = useState(false);
+
+  useEffect(() => {
+    if (enteredNameIsValid) {
+      console.log("Name input is valid!");
+    }
+  }, [enteredNameIsValid]);
 
   const nameInputChangeHandler = (event) => {
     setEnteredName(event.target.value);
@@ -11,6 +18,8 @@ const SimpleInput = (props) => {
 
   const formSubmissionHandler = (event) => {
     event.preventDefault(); // do not send the http request to the browser and so don't reload the page
+
+    setEnteredNameTouched(true);
 
     if (enteredName.trim() === "") {
       setEnteredNameIsValid(false);
@@ -25,14 +34,17 @@ const SimpleInput = (props) => {
 
     // nameInputRef.current.value = ''; ==> NOT IDEAL< DON'T MANIPULATE THE DOM
     setEnteredName("");
+    setEnteredNameTouched(false);
   };
+
+  const nameInputIsInvalid = !enteredNameIsValid && enteredNameTouched;
 
   // if you only interested in reading the value once we should use useRef
   // if we want instant validation we should use useState. Also if we want to reset the enteredName
 
-  const nameInputClasses = enteredNameIsValid
-    ? "form-control"
-    : "form-control invalid";
+  const nameInputClasses = nameInputIsInvalid
+    ? "form-control invalid"
+    : "form-control";
 
   return (
     <form onSubmit={formSubmissionHandler}>
@@ -44,7 +56,7 @@ const SimpleInput = (props) => {
           id="name"
           onChange={nameInputChangeHandler}
         />
-        {!enteredNameIsValid && (
+        {nameInputIsInvalid && (
           <p className="error-text">Name must not be empty.</p>
         )}
       </div>
