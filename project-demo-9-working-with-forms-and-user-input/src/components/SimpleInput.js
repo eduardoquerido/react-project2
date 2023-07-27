@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 const SimpleInput = (props) => {
   const [enteredName, setEnteredName] = useState("");
@@ -8,6 +8,11 @@ const SimpleInput = (props) => {
   // enteredNameIsValid will be revaluated by React
   const enteredNameIsValid = enteredName.trim() !== "";
   const nameInputIsInvalid = !enteredNameIsValid && enteredNameTouched;
+  let formIsValid = false;
+
+  if (enteredNameIsValid) {
+    formIsValid = true;
+  }
 
   const nameInputChangeHandler = (event) => {
     setEnteredName(event.target.value);
@@ -31,6 +36,7 @@ const SimpleInput = (props) => {
     setEnteredName("");
     setEnteredNameTouched(false);
   };
+  console.log(formIsValid);
 
   // if you only interested in reading the value once we should use useRef
   // if we want instant validation we should use useState. Also if we want to reset the enteredName
@@ -55,7 +61,7 @@ const SimpleInput = (props) => {
         )}
       </div>
       <div className="form-actions">
-        <button>Submit</button>
+        <button disabled={!formIsValid}>Submit</button>
       </div>
     </form>
   );
