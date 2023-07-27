@@ -1,28 +1,20 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useEffect } from "react";
 
 const SimpleInput = (props) => {
-  // const nameInputRef = useRef();
   const [enteredName, setEnteredName] = useState("");
-  const [enteredNameIsValid, setEnteredNameIsValid] = useState(false);
   const [enteredNameTouched, setEnteredNameTouched] = useState(false);
 
-  useEffect(() => {
-    if (enteredNameIsValid) {
-      console.log("Name input is valid!");
-    }
-  }, [enteredNameIsValid]);
+  // whenever enteredName or enteredNameTouched is changed
+  // enteredNameIsValid will be revaluated by React
+  const enteredNameIsValid = enteredName.trim() !== "";
+  const nameInputIsInvalid = !enteredNameIsValid && enteredNameTouched;
 
   const nameInputChangeHandler = (event) => {
     setEnteredName(event.target.value);
   };
-  
+
   const nameInputBlur = () => {
     setEnteredNameTouched(true);
-
-    if (enteredName.trim() === "") {
-      setEnteredNameIsValid(false);
-      return;
-    }
   };
 
   const formSubmissionHandler = (event) => {
@@ -30,23 +22,15 @@ const SimpleInput = (props) => {
 
     setEnteredNameTouched(true);
 
-    if (enteredName.trim() === "") {
-      setEnteredNameIsValid(false);
+    if (!enteredNameIsValid) {
       return;
     }
 
-    setEnteredNameIsValid(true);
-
     console.log(enteredName);
-    // const enteredValue = nameInputRef.current.value;
-    // console.log(enteredValue);
 
-    // nameInputRef.current.value = ''; ==> NOT IDEAL< DON'T MANIPULATE THE DOM
     setEnteredName("");
     setEnteredNameTouched(false);
   };
-
-  const nameInputIsInvalid = !enteredNameIsValid && enteredNameTouched;
 
   // if you only interested in reading the value once we should use useRef
   // if we want instant validation we should use useState. Also if we want to reset the enteredName
