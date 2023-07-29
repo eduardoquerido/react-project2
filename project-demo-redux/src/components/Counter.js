@@ -1,6 +1,6 @@
 import { useSelector, useDispatch } from 'react-redux';
 import classes from './Counter.module.css';
-
+import { counterActions } from '../store';
 // import { Component } from 'react';
 
 const Counter = () => {
@@ -11,17 +11,17 @@ const Counter = () => {
 
 
   const incrementHandler = () => {
-    dispatch({ type: 'INCREMENT_COUNTER'});
+    dispatch(counterActions.increment());
   };
-  const decrementHandler = () => {dispatch({ type: 'DECREMENT_COUNTER'});};
+  const decrementHandler = () => {dispatch(counterActions.decrement());};
 
   const increaseHandler = () => {
-    dispatch({type: "INCREASE", amount: 5})
+    dispatch(counterActions.increase(5)); // { type: SOM_UNIQUE_IDENTIFIER , payload: 5} --> redux toolkit does something like this
   }
 
 
   const toggleCounterHandler = () => {
-    dispatch({type: "TOGGLE"})
+    dispatch(counterActions.toggleCounter());
   };
 
   return (
